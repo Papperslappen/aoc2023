@@ -1,14 +1,8 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
+pub fn get_input_rows()->Vec<String>{
+    let stdin = std::io::stdin();
+    stdin.lines().map(|line|line.unwrap()).collect()
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+pub fn raw_to_strings(s: &str)->Vec<String>{
+    s.split('\n').map(|s|s.to_string()).collect()
 }
