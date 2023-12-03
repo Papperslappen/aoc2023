@@ -1,5 +1,5 @@
 [package]
-name = "util"
+name = "dec2"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 pom = "3.3.0"
+util = {path = "../util"}
