@@ -131,7 +131,7 @@ fn solution_b(input: &[String]) -> u32 {
 #[test]
 fn test_solution_b() {
     let input = util::raw_to_strings(
-r"467..114..
+        r"467..114..
 ...*......
 ..35..633.
 ......#...
