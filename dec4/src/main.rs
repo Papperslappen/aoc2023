@@ -64,6 +64,7 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11",
     assert_eq!(solution_a(&input), 13)
 }
 
+#[allow(clippy::needless_range_loop)]
 fn solution_b(input: &[String]) -> u32 {
     let cards_numbers = std::iter::repeat(1_u32).take(input.len()).collect::<Vec<_>>();
     let matches = input.iter().map(|s| Card::from(s.as_str()).matches()).collect::<Vec<_>>();
