@@ -1,3 +1,7 @@
+use std::collections::HashMap;
+use std::cmp::Eq;
+use std::hash::Hash;
+
 pub mod parser;
 
 pub fn get_input_rows() -> Vec<String> {
@@ -7,4 +11,13 @@ pub fn get_input_rows() -> Vec<String> {
 
 pub fn raw_to_strings(s: &str) -> Vec<String> {
     s.split('\n').map(|s| s.to_string()).collect()
+}
+
+pub fn count_unique<T>(values: &[T])->Vec<(T,usize)> where T:Clone+Eq+Hash{
+    values.iter()
+        .fold(HashMap::<T, usize>::new(), |mut m, x| {
+            *m.entry(x.clone()).or_default() += 1;
+            m
+        })
+        .into_iter().collect::<Vec<_>>()
 }
