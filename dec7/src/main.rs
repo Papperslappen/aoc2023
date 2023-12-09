@@ -130,18 +130,22 @@ mod solution_b {
         FiveOfAKind(Vec<Card>),
     }
 
-    fn count_unique_and_sub_jokers(cards: &[Card])->Vec<(Card,usize)> {
-        let mut map = cards.iter()
-        .fold(HashMap::<Card, usize>::new(), |mut m, x| {
-            *m.entry(*x).or_default() += 1;
-            m
-        });
+    fn count_unique_and_sub_jokers(cards: &[Card]) -> Vec<(Card, usize)> {
+        let mut map = cards
+            .iter()
+            .fold(HashMap::<Card, usize>::new(), |mut m, x| {
+                *m.entry(*x).or_default() += 1;
+                m
+            });
         if let Some(njokers) = map.remove(&Card(0)) {
             //AAAAaaaaah
-            if !map.is_empty(){
-                *map.iter_mut().max_by(|(_,v1),(_,v2)| v1.cmp(v2)).unwrap().1 += njokers;
-            }else{
-                map.insert(Card(0),njokers);
+            if !map.is_empty() {
+                *map.iter_mut()
+                    .max_by(|(_, v1), (_, v2)| v1.cmp(v2))
+                    .unwrap()
+                    .1 += njokers;
+            } else {
+                map.insert(Card(0), njokers);
             }
         }
         map.into_iter().collect()
@@ -151,26 +155,41 @@ mod solution_b {
         fn valid(&self) -> bool {
             match self {
                 Hand::HighCard(_) => true,
-                Hand::Pair(cards) => count_unique_and_sub_jokers(cards).iter().any(|(_, v)| *v == 2),
+                Hand::Pair(cards) => count_unique_and_sub_jokers(cards)
+                    .iter()
+                    .any(|(_, v)| *v == 2),
                 Hand::TwoPair(cards) => {
-                    count_unique_and_sub_jokers(cards).iter().fold(
-                        0,
-                        |number, (_, v)| {
-                            if *v == 2 {
-                                number + 1
-                            } else {
-                                number
-                            }
-                        },
-                    ) == 2
+                    count_unique_and_sub_jokers(cards)
+                        .iter()
+                        .fold(
+                            0,
+                            |number, (_, v)| {
+                                if *v == 2 {
+                                    number + 1
+                                } else {
+                                    number
+                                }
+                            },
+                        )
+                        == 2
                 }
-                Hand::Three(cards) => count_unique_and_sub_jokers(cards).iter().any(|(_, v)| *v == 3),
+                Hand::Three(cards) => count_unique_and_sub_jokers(cards)
+                    .iter()
+                    .any(|(_, v)| *v == 3),
                 Hand::House(cards) => {
-                    count_unique_and_sub_jokers(cards).iter().any(|(_, v)| *v == 3)
-                        && count_unique_and_sub_jokers(cards).iter().any(|(_, v)| *v == 2)
+                    count_unique_and_sub_jokers(cards)
+                        .iter()
+                        .any(|(_, v)| *v == 3)
+                        && count_unique_and_sub_jokers(cards)
+                            .iter()
+                            .any(|(_, v)| *v == 2)
                 }
-                Hand::FourOfAKind(cards) => count_unique_and_sub_jokers(cards).iter().any(|(_, v)| *v == 4),
-                Hand::FiveOfAKind(cards) => count_unique_and_sub_jokers(cards).iter().any(|(_, v)| *v == 5),
+                Hand::FourOfAKind(cards) => count_unique_and_sub_jokers(cards)
+                    .iter()
+                    .any(|(_, v)| *v == 4),
+                Hand::FiveOfAKind(cards) => count_unique_and_sub_jokers(cards)
+                    .iter()
+                    .any(|(_, v)| *v == 5),
             }
         }
 

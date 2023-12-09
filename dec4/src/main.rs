@@ -11,7 +11,7 @@ struct Card {
 
 impl From<&str> for Card {
     fn from(value: &str) -> Self {
-        let parser = (seq(b"Card")*space() * posint() - sym(b':') - space()
+        let parser = (seq(b"Card") * space() * posint() - sym(b':') - space()
             + (posint() - space()).repeat(1..)
             - sym(b'|')
             - space()
@@ -25,17 +25,15 @@ impl From<&str> for Card {
 }
 
 impl Card {
-    fn matches(&self)->u32 {
-        self
-            .ticket
+    fn matches(&self) -> u32 {
+        self.ticket
             .iter()
             .filter(|n| self.winning.contains(n))
             .collect::<Vec<_>>()
             .len() as u32
     }
     fn score(&self) -> u32 {
-        match self.matches()
-        {
+        match self.matches() {
             0 => 0,
             n => 2_u32.pow(n - 1),
         }
@@ -43,12 +41,7 @@ impl Card {
 }
 
 fn solution_a(input: &[String]) -> u32 {
-    input
-        .iter()
-        .map(|s| {
-            Card::from(s.as_str()).score()
-        })
-        .sum()
+    input.iter().map(|s| Card::from(s.as_str()).score()).sum()
 }
 
 #[test]
@@ -66,17 +59,26 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11",
 
 #[allow(clippy::needless_range_loop)]
 fn solution_b(input: &[String]) -> u32 {
-    let cards_numbers = std::iter::repeat(1_u32).take(input.len()).collect::<Vec<_>>();
-    let matches = input.iter().map(|s| Card::from(s.as_str()).matches()).collect::<Vec<_>>();
-    let cards = matches.iter().enumerate().fold(cards_numbers,|mut card_numbers, (index,number)| {
-        //println!("index: {}",index);
-        let ncards = card_numbers[index];
-        //println!("Card {}: {} copies with {} wins", index, ncards, number);
-        for j in (index+1)..=index+*number as usize {
-            card_numbers[j]+=ncards;
-        }
-        card_numbers
-    });
+    let cards_numbers = std::iter::repeat(1_u32)
+        .take(input.len())
+        .collect::<Vec<_>>();
+    let matches = input
+        .iter()
+        .map(|s| Card::from(s.as_str()).matches())
+        .collect::<Vec<_>>();
+    let cards =
+        matches
+            .iter()
+            .enumerate()
+            .fold(cards_numbers, |mut card_numbers, (index, number)| {
+                //println!("index: {}",index);
+                let ncards = card_numbers[index];
+                //println!("Card {}: {} copies with {} wins", index, ncards, number);
+                for j in (index + 1)..=index + *number as usize {
+                    card_numbers[j] += ncards;
+                }
+                card_numbers
+            });
 
     cards.iter().sum()
 }
