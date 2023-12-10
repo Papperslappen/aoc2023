@@ -12,3 +12,12 @@ pub fn posint<'a>() -> Parser<'a, u8, u32> {
         .convert(str::from_utf8)
         .map(|str| str.parse::<u32>().unwrap())
 }
+
+pub fn int<'a>() -> Parser<'a, u8, i64> {
+    let integer =
+        (sym(b'-').opt() * (one_of(b"123456789") - one_of(b"0123456789").repeat(0..))) | sym(b'0');
+    integer
+        .collect()
+        .convert(str::from_utf8)
+        .map(|str| str.parse::<i64>().unwrap())
+}
