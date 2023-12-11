@@ -22,6 +22,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "dec10"
+version = "0.1.0"
+dependencies = [
+ "pom",
+ "util",
+]
+
+[[package]]
 name = "dec2"
 version = "0.1.0"
 dependencies = [
