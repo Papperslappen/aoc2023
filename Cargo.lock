@@ -39,6 +39,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "dec12"
+version = "0.1.0"
+dependencies = [
+ "itertools",
+ "pom",
+ "util",
+]
+
+[[package]]
 name = "dec2"
 version = "0.1.0"
 dependencies = [
