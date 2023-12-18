@@ -37,3 +37,21 @@ pub fn gcd(mut n: u64, mut m: u64) -> u64 {
     }
     n
 }
+
+
+
+#[derive(PartialEq,Eq, Hash, Clone, Copy, Debug)]
+pub enum Direction{
+    E,N,W,S
+}
+ 
+impl Direction{
+    pub fn move_in(&self, (col,row):(usize,usize), (width, height):(usize,usize))->Option<(usize,usize)>{
+        match self{
+            Direction::E => Some((col + 1,row)).filter(|(col,row)| *col<width && *row<height),
+            Direction::N => row.checked_sub(1).map(|row| (col,row)),
+            Direction::W => col.checked_sub(1).map(|col| (col,row)),
+            Direction::S => Some((col,row+1)).filter(|(col,row)| *col<width && *row<height),
+        }
+    }
+}
