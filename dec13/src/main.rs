@@ -64,7 +64,8 @@ impl Square {
 
     fn get_value_smudge_removed(&self) -> u64 {
         (find_symmetry_with_single_bit_swap(&self.col_values()).unwrap_or(0)
-            + 100 * find_symmetry_with_single_bit_swap(&self.row_values()).unwrap_or(0)) as u64
+            + 100 * find_symmetry_with_single_bit_swap(&self.row_values()).unwrap_or(0))
+            as u64
     }
 
     fn get_value(&self) -> u64 {
@@ -81,19 +82,22 @@ fn find_symmetry(values: &[u64]) -> Option<usize> {
 }
 
 fn find_symmetry_with_single_bit_swap(values: &[u64]) -> Option<usize> {
-    (1..values.len()).filter(|mid| {
-        (1..=(values.len().abs_diff(*mid).min(*mid)))
-        .map(|i| (values[mid-i],values[mid+i-1])).all(|(a,b)|{
-            a==b || find_set_bit(a^b).is_some() 
+    (1..values.len())
+        .filter(|mid| {
+            (1..=(values.len().abs_diff(*mid).min(*mid)))
+                .map(|i| (values[mid - i], values[mid + i - 1]))
+                .all(|(a, b)| a == b || find_set_bit(a ^ b).is_some())
         })
-    }).find(|mid|{       
-        (1..=(values.len().abs_diff(*mid).min(*mid)))
-        .map(|i| (values[mid-i],values[mid+i-1]))
-        .filter(|(a,b)| {
-            find_set_bit(a^b).is_some()}).count() == 1})
+        .find(|mid| {
+            (1..=(values.len().abs_diff(*mid).min(*mid)))
+                .map(|i| (values[mid - i], values[mid + i - 1]))
+                .filter(|(a, b)| find_set_bit(a ^ b).is_some())
+                .count()
+                == 1
+        })
 }
 
-fn find_set_bit(n: u64)->Option<usize>{
+fn find_set_bit(n: u64) -> Option<usize> {
     if n.count_ones() == 1 {
         Some(n.ilog2() as usize)
     } else {

@@ -13,13 +13,11 @@ pub fn posint<'a>() -> Parser<'a, u8, u32> {
         .map(|str| str.parse::<u32>().unwrap())
 }
 
-pub mod utf8{
+pub mod utf8 {
     use pom::utf8::*;
     pub fn posint<'a>() -> Parser<'a, u64> {
         let integer = (one_of("123456789") - one_of("0123456789").repeat(0..)) | sym('0');
-        integer
-            .collect()
-            .map(|str| str.parse::<u64>().unwrap())
+        integer.collect().map(|str| str.parse::<u64>().unwrap())
     }
 }
 

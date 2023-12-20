@@ -161,9 +161,7 @@ fn solution_a(input: &[String]) -> u64 {
     input
         .iter()
         .map(SpringPuzzle::from)
-        .map(|puzzle| {
-            puzzle.solve()
-        })
+        .map(|puzzle| puzzle.solve())
         .sum()
 }
 
