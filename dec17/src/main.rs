@@ -1,7 +1,4 @@
-use std::{
-    collections::btree_map::Range,
-    ops::{Add, RangeInclusive},
-};
+use std::ops::{Add, RangeInclusive};
 
 use util::{Dijkstra, Direction, Map};
 
@@ -90,7 +87,6 @@ fn solution_b(input: &[String]) -> u64 {
     let (cost, _path) = map.solve(((0, 0), None), |(c, _)| {
         *c == (map.map.width - 1, map.map.height - 1)
     });
-    println!("path: {:?}", _path);
     cost
 }
 
