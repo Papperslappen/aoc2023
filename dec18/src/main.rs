@@ -125,18 +125,6 @@ fn area(commands: Vec<ContourCommand>) -> i64 {
         })
         .collect::<Vec<_>>();
 
-    let (_minx, _maxx, miny, _maxy) =
-        corners
-            .iter()
-            .fold((i64::MAX, i64::MIN, i64::MAX, i64::MIN), |acc, c| {
-                (
-                    acc.0.min(c.0),
-                    acc.1.max(c.0),
-                    acc.2.min(c.1),
-                    acc.3.max(c.1),
-                )
-            });
-
     commands
         .iter()
         .zip(corners)
@@ -225,17 +213,6 @@ R 2 (#7807d2)
 U 3 (#a77fa3)
 L 2 (#015232)
 U 2 (#7a21e3)",
-    );
-
-    let input2 = raw_to_strings(
-        r"R 4 (#000000)
-D 2 (#000000)
-L 2 (#000000)
-D 2 (#000000)
-R 2 (#000000)
-D 2 (#000000)
-L 4 (#000000)
-U 6 (#FFFFF1)",
     );
     assert_eq!(solution_a(&input1), 62);
     assert_eq!(solution_b(&input1), 952408144115);
