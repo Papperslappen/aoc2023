@@ -1,8 +1,8 @@
 use std::cmp::{Eq, Reverse};
-use std::collections::{HashMap, BinaryHeap};
+use std::collections::{BinaryHeap, HashMap};
+use std::fmt::Debug;
 use std::hash::Hash;
 use std::iter::repeat;
-use std::fmt::Debug;
 
 pub mod parser;
 
@@ -135,11 +135,12 @@ pub trait Dijkstra {
         is_end: impl Fn(&Self::State) -> bool,
     ) -> (u64, Vec<Self::State>) {
         let mut costs: HashMap<Self::State, (Option<Self::State>, u64)> =
-        HashMap::from([(start.clone(), (None, 0))]);
+            HashMap::from([(start.clone(), (None, 0))]);
         // let mut stack: VecDeque<Self::State> = vec![start].into();
-        let mut heap: BinaryHeap<(Reverse<u64>,Self::State)> = BinaryHeap::from(vec![(Reverse(0),start)]);
-        
-        while let Some((current_cost,current_state)) = heap.pop() {
+        let mut heap: BinaryHeap<(Reverse<u64>, Self::State)> =
+            BinaryHeap::from(vec![(Reverse(0), start)]);
+
+        while let Some((current_cost, current_state)) = heap.pop() {
             let neighbors = self
                 .neighbors(&current_state)
                 .into_iter()
@@ -152,15 +153,14 @@ pub trait Dijkstra {
                         let path_cost = current_cost.0 + cost;
                         if path_cost < cost_entry.1 {
                             *cost_entry = (Some(current_state.clone()), path_cost);
-                            heap.push((Reverse(path_cost),neighbor));
+                            heap.push((Reverse(path_cost), neighbor));
                         }
                     }
                     std::collections::hash_map::Entry::Vacant(v) => {
                         v.insert((Some(current_state.clone()), current_cost.0 + cost));
-                        heap.push((Reverse(current_cost.0 + cost),neighbor));
+                        heap.push((Reverse(current_cost.0 + cost), neighbor));
                     }
                 }
-
             }
         }
         let end = costs

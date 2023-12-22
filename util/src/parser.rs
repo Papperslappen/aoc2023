@@ -19,6 +19,10 @@ pub mod utf8 {
         let integer = (one_of("123456789") - one_of("0123456789").repeat(0..)) | sym('0');
         integer.collect().map(|str| str.parse::<u64>().unwrap())
     }
+
+    pub fn space<'a>() -> Parser<'a, ()> {
+        one_of(" \t\r\n").repeat(0..).discard()
+    }
 }
 
 pub fn int<'a>() -> Parser<'a, u8, i64> {
